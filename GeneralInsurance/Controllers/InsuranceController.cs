@@ -4,36 +4,30 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using GeneralInsurance.Models;
+using System.Web.Http.Cors;
 
 namespace GeneralInsurance.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class InsuranceController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        public HttpResponseMessage PostMotor([FromBody] MOTOR moto)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                using (GeneralInsuranceEntities db = new GeneralInsuranceEntities())
+                {
+                    db.MOTORs.Add(moto);
+                    db.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.Created, moto);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
     }
 }
