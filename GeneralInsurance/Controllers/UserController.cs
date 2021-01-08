@@ -12,7 +12,9 @@ namespace GeneralInsurance.Controllers
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
+            Console.WriteLine("hey");
             return new string[] { "value1", "value2" };
+
         }
 
         // GET api/<controller>/5
